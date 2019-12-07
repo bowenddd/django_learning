@@ -1,0 +1,12 @@
+{%block title%} This is Title {%endblock%}
+
+{%block content%}
+
+<ul>
+    {%for blog in blogs%}
+        <li><a href="{{blog.id}}">{{blog.title}}</a></li>
+    {% endfor%}
+
+</ul>
+
+{%endblock%}
