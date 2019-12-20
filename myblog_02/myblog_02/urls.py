@@ -21,4 +21,5 @@ urlpatterns = [
     path('blog/', include(('blog.urls', 'blog'), namespace='blog')),
     path('account/', include(('account.urls', 'account'), namespace='account')),
     path('',views.blog_titles),
+    path('article/',include(('article.urls','article'), namespace='article')),
 ]

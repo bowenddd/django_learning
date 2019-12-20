@@ -1,0 +1,37 @@
+{% extends "article/base.html"%}
+{% load staticfiles %}
+{% block title%}{{article.title}}{%endblock%}
+
+{% block content%}
+    <div>
+        <header>
+            <h1>{{article.title}}</h1>
+            <p>{{user.username}}</p>
+        </header>
+        <link rel="stylesheet" href="{% static 'editormd/css/editormd.preview.css'%}"/>
+        <div id="editormd-view">
+            <textarea id="append-test" style="display: none">{{article.body}}</textarea>
+        </div>
+    </div>
+<script src="{% static 'js/jquery.js'%}"></script>
+<script src="{% static 'editormd/lib/marked.min.js'%}"></script>
+<script src="{% static 'editormd/lib/prettify.min.js'%}"></script>
+<script src="{% static 'editormd/lib/raphael.min.js'%}"></script>
+<script src="{% static 'editormd/lib/undersscore.min.js'%}"></script>
+<script src="{% static 'editormd/lib/sequence-diagram.min.js'%}"></script>
+<script src="{% static 'editormd/lib/flowchart.min.js'%}"></script>
+<script src="{% static 'editormd/lib/jquery.flowchart.min.js'%}"></script>
+<script src="{% static 'editormd/editormd.js'%}"></script>
+<script type="text/javascript">
+    $(function () {
+        editormd.markdownToHTML("editormd-view",{
+            htmlDecode : "style,script,iframe",
+            emoji : true,
+            taskList : true,
+            tex : true,
+            flowChart  :true,
+            sequenceDiagram : true,
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% load staticfiles%}
+<link rel="stylesheet" href="../../../static/editormd/css/editormd.min.css" />
+<link rel="stylesheet" href="../../../static/editormd/css/style.css">
+
+<div id="editor" class="col-md-10 text-left">
+    <textarea id="id_body" style="display:none;">{{article.body}}</textarea>
+</div>
+<script src="../../../static/js/jquery.js"></script>
+<script src="../../../static/editormd/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("editor", {
+            width: "100%",
+            height: 640,
+            SyncScrolling: "single",
+            path : "../../../static/editormd/lib/",
+        });
+    });
+</script>
