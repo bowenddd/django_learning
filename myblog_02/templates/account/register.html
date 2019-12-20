@@ -1,37 +1,37 @@
 {% extends "base.html"%}
 
-{% block title%}Register User{% endblock%}
+{% block title%}注册账号{% endblock%}
 
 {% block content %}
     <div class="row text-center vertical-middle-sm">
-        <h1>Register</h1>
-        <p>If you are a user, <strong><a href="{% url 'account:user_login'%}">Login</a>
-        </strong>,please</p>
-        <p>or register.</p>
+        <h1>注册帐号</h1>
+        <p>如果你已经拥有账户，请<strong><a href="{% url 'account:user_login'%}">登录</a>
+        </strong></p>
+        <p>否则，请注册</p>
         <form class="form-horizontal" action="." method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label for="{{form.user.id_for_label}}" class="col-md-5 control-label">Username</label>
+                <label for="{{form.user.id_for_label}}" class="col-md-5 control-label">用户名</label>
                 <div class="col-md-6 text-left">{{ form.username }}</div>
             </div>
             <div class="form-group">
-                <label for="{{form.email.id_for_label}}" class="col-md-5 control-label">Email</label>
+                <label for="{{form.email.id_for_label}}" class="col-md-5 control-label">邮件</label>
                 <div class="col-md-6 text-left">{{ form.email }}</div>
             </div>
             <div class="form-group">
-                <label for="{{form.password.id_for_label}}" class="col-md-5 control-label">Password</label>
+                <label for="{{form.password.id_for_label}}" class="col-md-5 control-label">密码</label>
                 <div class="col-md-6 text-left">{{ form.password }}</div>
             </div>
             <div class="form-group">
-                <label for="{{form.password.id_for_label}}" class="col-md-5 control-label">Confirm Password</label>
+                <label for="{{form.password.id_for_label}}" class="col-md-5 control-label">确认密码</label>
                 <div class="col-md-6 text-left">{{ form.password2 }}</div>
             </div>
             <div class="form-group">
-                <label for="{{profile.birth.id_for_label}}" class="col-md-5 control-label">Birth Data</label>
+                <label for="{{profile.birth.id_for_label}}" class="col-md-5 control-label">生日</label>
                 <div class="col-md-6 text-left">{{ profile.birth }}</div>
             </div>
             <div class="form-group">
-                <label for="{{profile.phone.id_for_label}}" class="col-md-5 control-label">Phone</label>
+                <label for="{{profile.phone.id_for_label}}" class="col-md-5 control-label">电话号码</label>
                 <div class="col-md-6 text-left">{{ profile.phone }}</div>
             </div>
             <input type="submit" class="btn btn-primary btn-lg" value="注册">

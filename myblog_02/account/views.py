@@ -109,7 +109,8 @@ def myself_edit(request):
         return render(request,'account/myself_edit.html',{
            'user_form':user_form,
            'userinfo':userinfo_form,
-           'userprofile':userprofile_form
+           'userprofile':userprofile_form,
+            'userphoto':userinfo.photo
         })
 
 def my_image(request):

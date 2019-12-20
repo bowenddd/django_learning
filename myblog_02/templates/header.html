@@ -9,6 +9,7 @@
         <div>
             <ul class="nav navbar-nav" role="navgation">
                 <li><a href="{% url 'blog:blog_title' %}">BLOG</a></li>
+                <li><a href="{% url 'article:article_titles'%}">文章</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
@@ -24,9 +25,9 @@
                         </ul>
                     </div>
                 </li>
-                <li><a href="{% url 'account:user_logout'%}">Logout</a></li>
+                <li><a href="{% url 'account:user_logout'%}">退出</a></li>
                 {% else %}
-                <li><a href="{% url 'account:user_login'%}">LOGIN</a> </li>
+                <li><a href="{% url 'account:user_login'%}">登录</a> </li>
                 {% endif %}
             </ul>
         </div>

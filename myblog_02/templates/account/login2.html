@@ -1,17 +1,17 @@
 {% extends "base.html"%}
 
 {% block title %}
-    Login
+    登陆
 {% endblock %}
 
 {% block content %}
 
     <div class="row text-center vertical-middle-sm">
-        <h1>Login</h1>
-        <p>Input your username and password</p>
+        <h1>登录账号</h1>
+        <p>请输入用户名或密码</p>
         <br>
         {% if form.errors %}
-            <p style="color:red;">ERROR !</p>
+            <p style="color:red;">用户名或密码错误</p>
         {% endif %}
         {%if next%}
             <form class="form-horizontal" action="{% url 'account:user_login'%}?next={{next}}" method="post">
@@ -23,21 +23,21 @@
                 <div class="form-group">
                     <label for="{{form.username.id_for_label}}"
                            class="col-md-5 control-label" style="color:red">
-                        <span class="glyphicon glyphicon-user"></span>Username
+                        <span class="glyphicon glyphicon-user"></span>用户名
                     </label>
                     <div class="col-md-6 text-left">{{ form.username }}</div>
                 </div>
                 <div class="form-group">
                     <label for="{{form.password.id_for_label}}"
                            class="col-md-5 control-label" style="color:blue">
-                        <span class="glyphicon glyphicon-floppy-open"></span>Password
+                        <span class="glyphicon glyphicon-floppy-open"></span>密码
                     </label>
                     <div class="col-md-6 text-left">{{ form.password }}</div>
                 </div>
-                <input type="submit" class="btn btn-primary btn-sm" value="Login">
+                <input type="submit" class="btn btn-primary btn-sm" value="登陆">
             </form>
                 <br>
-                <p>Have no account?<a href="{% url 'account:user_register'%}">Register</a>!</p>
-                <p>Forget your password? <a href="{% url 'account:password_reset'%}">click here</a></p>
+                <p>还妹有账户?<a href="{% url 'account:user_register'%}">注册</a>!</p>
+                <p>忘记密码? <a href="{% url 'account:password_reset'%}">点击这里</a></p>
     </div>
 {% endblock %}
