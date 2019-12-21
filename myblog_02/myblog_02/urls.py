@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from blog import views
+from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include(('blog.urls', 'blog'), namespace='blog')),
     path('account/', include(('account.urls', 'account'), namespace='account')),
     path('',views.blog_titles),
     path('article/',include(('article.urls','article'), namespace='article')),
+    path('index/',TemplateView.as_view(template_name='index.html'),name='index')
 ]

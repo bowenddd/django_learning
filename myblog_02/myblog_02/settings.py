@@ -126,7 +126,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR,"static"),
 )
 
-LOGIN_REDIRECT_URL = '/blog/'
+LOGIN_REDIRECT_URL = '/index/'
 LOGIN_URL = '/account/login/'
 
 EMAIL_HOST = 'smtp.163.com'
@@ -135,3 +135,7 @@ EMAIL_HOSE_PASSWORD = 'bowenddd17042112'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0

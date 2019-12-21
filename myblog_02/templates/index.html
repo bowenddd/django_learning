@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+
+{% block title%}主页 {% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h1>欢迎来到您的博客</h1>
+        <h3>分享生活，留住感动</h3>
+        <h2>您可以通过博客来记录您的日常生活，分享您的喜怒哀乐</h2>
+        {%load staticfiles%}
+        <img src="{%static 'images/blog_img.jpg'%}" width="60%">
+    </div>
+{% endblock%}

@@ -1,19 +1,24 @@
-{%extends 'base.html'%}
+{% extends "base.html"%}
 
-{%block title%}This is title{% endblock%}
+{% block title%}文章列表{% endblock%}
 
 {%block content%}
-<div class = "row text-center vertical-middle-sm">
-    <h1>我的博客</h1>
+
+<div class="row text-center vertical-middle-sm">
+    <h1>{{username}}的文章</h1>
 </div>
-<div class = "row">
-    <div class="col-xs-12 col-md-8">
-        <ul>
-            {% for blog in blogs%}
-                <li><a href="{% url 'blog:blog_title'%}{{blog.id}}">{{blog.title}}</a></li>
-            {% endfor%}
-        </ul>
-    </div>
+
+<div class="container">
+    {% for blog in blogs%}
+        <div class="list-group">
+            <a href="{{blog.get_url_path}}" class="list-group-item active">
+                <h3 class="list-group-item-heading">{{blog.title}}</h3>
+                <h4 class="list-group-item-text">{{blog.auth.username}}</h4>
+                <p class="list-group-item-text">{{blog.body|slice:'70'|linebreaks}}</p>
+            </a>
+        </div>
+    {% endfor %}
+    {% include 'paginator.html'%}
 </div>
 
 {% endblock%}

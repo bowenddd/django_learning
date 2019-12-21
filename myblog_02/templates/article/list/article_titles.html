@@ -3,9 +3,10 @@
 {% block title%}文章列表{% endblock%}
 
 {%block content%}
-
+{% load article_tags %}
 <div class="row text-center vertical-middle-sm">
     <h1>阅读，丰富头脑，善化行为</h1>
+    <p>这里已经有{%total_articies%}篇文章供你阅读</p>
 </div>
 
 <div class="container">
@@ -13,9 +14,9 @@
         <div class="list-group">
             <a href="{{article.get_url_path}}" class="list-group-item active">
                 <h3 class="list-group-item-heading">{{article.title}}</h3>
-                <h4 class="list-group-item-text">{{article.auth.username}}</h4>
-                <p class="list-group-item-text">{{article.body|slice:'70'|linebreaks}}</p>
             </a>
+            <h4 class="list-group-item-text">作者：<a href="{% url 'article:author_articles' article.auth.username%}">{{article.auth.username}}</a></h4>
+            <p class="list-group-item-text">概要：{{article.body|markdown|slice:'70'|linebreaks}}</p>
         </div>
     {% endfor %}
     {% include 'paginator.html'%}

@@ -2,12 +2,18 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse,HttpResponseRedirect
-from .forms import ArticleColumnForm,ArticlePostForm
-from .models import ArticleColumn,ArticlePost
+from .forms import ArticleColumnForm,ArticlePostForm,ArticleTagForm
+from .models import ArticleColumn,ArticlePost,ArticleTag
 from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+import json
 # Create your views here.
+
 
 @login_required()
 @csrf_exempt
@@ -65,6 +71,11 @@ def article_post(request):
                 new_article.auth = request.user
                 new_article.column = request.user.article_column.get(id=request.POST['column'])
                 new_article.save()
+                tags = request.POST['tags']
+                if tags:
+                    for atag in json.loads(tags):
+                        tag = request.user.tag.get(tag=atag)
+                        new_article.article_tag.add(tag)
                 return HttpResponse("1")
             except Exception as e:
                 print(e)
@@ -74,7 +85,9 @@ def article_post(request):
     else:
         article_post_form = ArticlePostForm()
         article_columns = request.user.article_column.all()
-        return render(request,'article/column/article_post.html',{"article_post_form":article_post_form,"article_columns":article_columns})
+        article_tags = request.user.tag.all()
+        return render(request,'article/column/article_post.html',{"article_post_form":article_post_form,
+                                                                  "article_columns":article_columns,"article_tags":article_tags})
 
 @login_required
 def article_list(request):
@@ -130,3 +143,58 @@ def edit_article(request,article_id):
         edit_article.auth = request.user
         edit_article.save()
         return HttpResponse("1")
+
+@login_required
+@csrf_exempt
+@require_POST
+def like_article(request):
+    article_id = request.POST.get('id')
+    action = request.POST.get('action')
+    print(action)
+    print(article_id)
+    if article_id and action:
+        try:
+            article = ArticlePost.objects.get(id = article_id)
+            if action == 'like':
+                article.users_like.add(request.user)
+                return HttpResponse("1")
+            else:
+                article.users_like.remove(request.user)
+                return HttpResponse("2")
+        except:
+            return HttpResponse("0")
+
+@login_required
+@csrf_exempt
+def article_tag(request):
+    if request.method == "GET":
+        article_tags = ArticleTag.objects.filter(auth = request.user)
+        article_tag_form = ArticleTagForm()
+        return render(request,'article/tag/tag_list.html',{
+            "tags":article_tags,
+            "tag_form":article_tag_form
+        })
+    else:
+        tag_post_form = ArticleTagForm(data=request.POST)
+        if tag_post_form.is_valid():
+            try:
+                new_tag = tag_post_form.save(commit=False)
+                new_tag.auth = request.user
+                new_tag.save()
+                return HttpResponse("1")
+            except:
+                return HttpResponse("the data can't be saved")
+
+        return HttpResponse("sorry,the form is valid")
+
+@login_required
+@csrf_exempt
+@require_POST
+def del_article_tag(request):
+    tag_id = request.POST['tag_id']
+    try:
+        tag = ArticleTag.objects.get(id=tag_id)
+        tag.delete()
+        return HttpResponse("1")
+    except:
+        return HttpResponse("0")

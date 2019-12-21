@@ -10,6 +10,9 @@ urlpatterns = [
     path('del-article/',views.del_article,name='del_article'),
     path('edit-article/<int:article_id>/',views.edit_article,name='edit_article'),
     path('list-article-titles/',list_views.article_titles,name="article_titles"),
-    path('article-content/<int:id>/<slug:slug>/',list_views.article_content,name='article_content')
-
+    path('article-content/<int:id>/<slug:slug>/',list_views.article_content,name='article_content'),
+    path('list-article-titles/<username>/',list_views.article_titles,name='author_articles'),
+    path('like-article/',views.like_article,name='like_article'),
+    path('article-tag/',views.article_tag,name="article_tag"),
+    path('delete-article-tag/',views.del_article_tag,name="del_article_tag"),
 ]

@@ -23,6 +23,18 @@
             </div>
         </div>
         <div class="row" style="margin-top: 10px">
+            <div class="col-md-2 text-right" style="margin-top: 7px"><span>文章标签：</span></div>
+            <div class="col-md-10 text-left">
+                {% for tag in article_tags%}
+                    <label class="checkbox-inline">
+                        <input class="tagcheckbox" type="checkbox" id="{{tag.id}}" name="article_tag" value="{{tag.tag}}">
+                    {{tag.tag}}</label>
+                {%empty%}
+                <p>你还没有文章标签点击<a href="{% url 'article:article_tag'%}">这里新建您的标签</a></p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row" style="margin-top: 10px">
             <div class="col-md-2 text-right"><span>内容：</span></div>
             {%include 'article/editormd.html'%}
         </div>
@@ -37,16 +49,21 @@
 
 <script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>
 <script type="text/javascript" src="{% static 'js/layer.js'%}"></script>
+<script type="text/javascript" src="{% static 'js/json2.js'%}"></script>
 <script>
     function publish_article() {
         var title = $("#id_title").val();
         var column = $("#which_column").val();
         var body = $("#id_body").val();
-
+        var article_tags = [];
+        $.each($('input[name="article_tag"]:checked'),
+        function () {
+            article_tags.push($(this).val());
+        });
         $.ajax({
             url : "{% url 'article:article_post'%}",
             type : "POST",
-            data : {"title":title, "column":column, "body":body},
+            data : {"title":title, "column":column, "body":body, "tags":JSON.stringify(article_tags)},
             success : function (e) {
                 if(e=="1"){
                     layer.msg("success");

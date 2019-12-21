@@ -1,0 +1,45 @@
+{% extends "base.html"%}
+
+{% block title%}文章列表{% endblock%}
+{% load staticfiles%}
+{% load article_tags %}
+{%block content%}
+
+<div class="row text-center vertical-middle-sm">
+    <h1>阅读，丰富头脑，善化行为</h1>
+</div>
+
+<div class="container">
+    <div class="col-md-8">
+        {% for article in articles%}
+            <div class="list-group">
+                <a href="{{article.get_url_path}}" class="list-group-item active">
+                    <h3 class="list-group-item-heading">{{article.title}}</h3>
+                </a>
+                <h4 class="list-group-item-text">作者：<a href="{% url 'article:author_articles' article.auth.username%}">{{article.auth.username}}</a></h4>
+                <p class="list-group-item-text">概要：{{article.body|markdown|slice:'70'|linebreaks}}</p>
+            </div>
+        {% endfor %}
+        {% include 'paginator.html'%}
+    </div>
+    <div class="col-md-4">
+        <div>
+            {% if photo%}
+                <img src="{{userinfo.photo|striptags}}" class="img-circle" id="my_photo" name="user_face" style="width: 200px">
+            {% else%}
+                <img src="{% static 'images/icon.jpg'%}" class="img-circle" id="my_photo" style="width: 200px">
+            {% endif%}
+        </div>
+        <div>
+            <p>{{auth.username}}</p>
+            <p>共发表{%author_total_articles auth%}篇文章</p>
+            {% if userinfo %}
+                <p>{{userinfo.company}}</p>
+                <p>{{userinfo.aboutme}}</p>
+            {% else %}
+                <p>这个作者太懒了，什么也没有留下！</p>
+            {% endif%}
+        </div>
+    </div>
+</div>
+{% endblock%}
