@@ -17,11 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from blog import views
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include(('blog.urls', 'blog'), namespace='blog')),
     path('account/', include(('account.urls', 'account'), namespace='account')),
     path('',views.blog_titles),
     path('article/',include(('article.urls','article'), namespace='article')),
-    path('index/',TemplateView.as_view(template_name='index.html'),name='index')
+    path('index/',TemplateView.as_view(template_name='index.html'),name='index'),
+    path('image/',include(('image.urls','image'),namespace='image')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
