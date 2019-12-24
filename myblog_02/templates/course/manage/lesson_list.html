@@ -1,0 +1,31 @@
+{% extends 'article/base.html'%}
+
+{% block title%}课程列表{% endblock%}
+
+{% block content%}
+
+<div>
+    <div class="text-center">
+        <h1>{{course.title}}</h1>
+        <p>课程列表内容</p>
+    </div>
+    <table class="table table-hover" style="margin-top: 10px">
+        <tr>
+            <td>序号</td>
+            <td>内容标题</td>
+            <td>发布日期</td>
+        </tr>
+        {% for lesson in lessons%}
+            <tr id="{{forloop.counter}}">
+                <td>{{forloop.counter}}</td>
+                <td><a href="{% url 'course:lesson_detail' lesson.id%}">{{lesson.title}}</a></td>
+                <td>{{lesson.created|date:"Y-m-d"}}</td>
+            </tr>
+        {%empty%}
+        <p>还没有课程，快去学习吧</p>
+        {% endfor%}
+
+    </table>
+</div>
+
+{% endblock%}

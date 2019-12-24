@@ -1,0 +1,73 @@
+{% extends "article/base.html"%}
+{% load staticfiles%}
+{% block title%}课程管理{% endblock %}
+
+{% block content %}
+<div>
+    <div class="text-right">
+        <a href="{% url 'course:create_course'%}"><button type="button" class="btn btn-primary btn-md">添加课程</button></a>
+    </div>
+    <table class="table table-hover" style="margin-top: 10px">
+        <tr>
+            <td>序号</td>
+            <td>课程名</td>
+            <td>发布日期</td>
+            <td>操作</td>
+        </tr>
+        {% for course in courses%}
+        <tr id="{{forloop.counter}}">
+            <td>{{forloop.counter}}</td>
+            <td>{{course.title}}</td>
+            <td>{{course.created}}</td>
+            <td>
+                <a name="edit" href="{% url 'course:update_course' course.id%}" class="glyphicon glyphicon-pencil"></a>
+                <a name="delete" href="javascript:" onclick="del_course(this,{{course.id}})"  class="glyphicon glyphicon-trash"></a>
+                <a name="lesson" href="lesson-list?id={{course.id}}" class="glyphicon glyphicon-search"></a>
+            </td>
+        </tr>
+        {% empty %}
+        <p><strong>还没有课程，点击上面按钮创建一个吧！</strong></p>
+        {% endfor %}
+    </table>
+    {% include 'paginator.html'%}
+</div>
+<script type="text/javascript" src="{%static 'js/jquery.js'%}"></script>
+<script type="text/javascript" src="{%static 'js/layer.js'%}"></script>
+<script type="text/javascript" src="{%static 'js/csrf.js'%}"></script>
+<script type="text/javascript">
+
+    function del_course(the,id) {
+        var course_name = $(the).parents('tr').children('td').eq(1).text();
+        layer.open({
+            type : 1,
+            skin : 'layui-layer-rim',
+            area : ['400px','200px'],
+            content : '<div class="text-center">' +
+                '<p>确认删除<strong>'+course_name+'</strong>?</p>' +
+                '</div>',
+            btn : ['确定','取消'],
+            yes : function () {
+                $.ajax({
+                    url : '{% url "course:delete_course"%}',
+                    type : 'POST',
+                    data : {'id':id},
+                    success : function (e) {
+                        if(e=='1'){
+                            layer.msg('删除成功');
+                            parent.location.reload();
+                        }
+                        else{
+                            layer.msg('删除失败');
+                            layer.close();
+                        }
+                    }
+                });
+
+            },
+            no :function () {
+                layer.close()
+            },
+        })
+    }
+</script>
+{% endblock %}

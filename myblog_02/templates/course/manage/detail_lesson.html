@@ -1,0 +1,31 @@
+{% extends 'article/base.html'%}
+
+{% block title%}课程详情{% endblock%}
+
+{% block content%}
+
+<div>
+    <div class="text-center">
+        <h1>{{lesson.title}}}</h1>
+        <h3>讲师：{{lesson.user.username}}</h3>
+    </div>
+    <div>
+        {% if lesson.video%}
+        <!--<video src="{{lesson.video.url}}" controls="controls" class="text-center"></video>-->
+        <img src="{{lesson.video.url}}" width="50%" height="50%" class="text-center" >
+        {%else%}
+        <p>没有视频嘤嘤嘤</p>
+        {% endif%}
+    </div>
+    <div>
+        {%if lesson.description%}
+        <p>{{lesson.description}}</p>
+        {% endif%}
+    </div>
+    <div>
+        {% if lesson.attach%}
+        <p><a href="{{lesson.attach.url}}">{{lesson.attach.name|cut:"courses/user_"}}</a></p>
+        {% endif%}
+    </div>
+</div>
+{% endblock%}

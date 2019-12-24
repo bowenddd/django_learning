@@ -27,6 +27,7 @@ urlpatterns = [
     path('article/',include(('article.urls','article'), namespace='article')),
     path('index/',TemplateView.as_view(template_name='index.html'),name='index'),
     path('image/',include(('image.urls','image'),namespace='image')),
+    path('course/',include(('course.urls','course'),namespace='course')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

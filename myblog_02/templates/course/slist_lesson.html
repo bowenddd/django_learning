@@ -1,0 +1,58 @@
+{% extends 'base.html'%}
+{% load staticfiles%}
+{% block title%}课程列表{% endblock%}
+
+{% block content%}
+
+<div>
+    <div class="text-center">
+        <h1>{{course.title}}</h1>
+        <p>课程列表内容</p>
+    </div>
+    <table class="table table-hover" style="margin-top: 10px">
+        <tr>
+            <td>序号</td>
+            <td>内容标题</td>
+            <td>发布日期</td>
+        </tr>
+        {% for lesson in lessons%}
+            <tr id="{{forloop.counter}}">
+                <td>{{forloop.counter}}</td>
+                <td><a href="{% url 'course:student_lesson_detail' lesson.id%}">{{lesson.title}}</a></td>
+                <td>{{lesson.created|date:"Y-m-d"}}</td>
+            </tr>
+        {%empty%}
+        <p>还没有课程，快去学习吧</p>
+        {% endfor%}
+
+    </table>
+
+</div>
+<div class="text-center">
+    <form action="." method="post" class="form-horizontal">
+        <input type="button" onclick="start_learn({{course.id}})" value="加入课程" class="btn btn-primary btn-md">
+    </form>
+</div>
+
+<script type="text/javascript" src="{%static 'js/jquery.js'%}"></script>
+<script type="text/javascript" src="{%static 'js/layer.js'%}"></script>
+<script type="text/javascript" src="{%static 'js/csrf.js'%}"></script>
+
+<script type="text/javascript">
+    function start_learn(course_id) {
+        $.ajax({
+            url : "{% url 'course:student_lesson'%}",
+            data : {"course_id":course_id},
+            type : "post",
+            success : function (e) {
+                if (e=="ok"){
+                    layer.msg("加入课程成功")
+                }
+                else{
+                    layer.msg("加入课程失败")
+                }
+            }
+        })
+    }
+</script>
+{% endblock%}

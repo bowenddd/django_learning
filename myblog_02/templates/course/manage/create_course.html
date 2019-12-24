@@ -1,0 +1,38 @@
+{% extends "article/base.html"%}
+
+{% block title %}新建课程 {% endblock %}
+{% load staticfiles%}
+{% block content%}
+<div style="margin-left: 100px; margin-top: 10px">
+    <form action="." method="POST">
+        {% csrf_token%}
+        {{form.as_p}}
+        <input type="button" value="创建课程" onclick="addCourse()">
+    </form>
+</div>
+
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/layer.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/csrf.js'%}"></script>
+<script type="text/javascript">
+    function addCourse() {
+        var title = $('#id_title').val();
+        var overview = $('#id_overview').val();
+        $.ajax({
+            url : "{%url 'course:create_course'%}",
+            type : 'POST',
+            data : {"title":title,"overview":overview},
+            success: function (e) {
+                if(e==1){
+                    layer.msg("新建课程成功");
+                    location.href = "{% url 'course:manage_course'%}";
+                }
+                else{
+                    layer.msg("新建课程失败，请重试！");
+                }
+            },
+        })
+    }
+</script>
+
+{% endblock%}

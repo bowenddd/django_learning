@@ -1,0 +1,16 @@
+{% extends "article/base.html" %}
+
+{% block title%}更改课程信息{% endblock %}
+
+{% block content %}
+
+<div>
+    <form action="." method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <p>你确定要更改课程<strong>{{object.title}}</strong>信息吗？</p>
+        <input type="submit" class="btn btn-primary btn-md" value="确定">
+    </form>
+</div>
+
+{% endblock %}
